@@ -16,11 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Escucha alertas de Ko-fi (overlay.js)
   window.addEventListener('message', e => {
-    // —— Depuración visual ——
-    const dbg = document.getElementById('debug');
-    if (dbg) dbg.textContent = JSON.stringify(e.data, null, 2);
-    // —— Fin depuración ——
-
     // Aceptar tanto donaciones reales como test alerts de Ko-fi
     if (e.data.type === 'donation' || e.data.type === 'order.success') {
       let amt    = parseFloat(e.data.amount);
@@ -125,8 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
       wheel.getBoundingClientRect();
 
       currentRotation = (currentRotation + spinDeg) % 360;
-      wheel.style.transition = `transform ${durationMs/1000}s ease-out`;
-      wheel.style.transform  = `translate(-50%,-50%) rotate(${currentRotation}deg)`;
+      wheel.style.transition = transform ${durationMs/1000}s ease-out;
+      wheel.style.transform  = translate(-50%,-50%) rotate(${currentRotation}deg);
 
       const onEnd = () => {
         wheel.removeEventListener('transitionend', onEnd);
@@ -138,4 +133,5 @@ document.addEventListener('DOMContentLoaded', () => {
       wheel.addEventListener('transitionend', onEnd);
     });
   }
+});
 });
