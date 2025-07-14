@@ -7,14 +7,15 @@
 </head>
 <body style="margin:0; overflow:hidden; background:transparent;">
 
-  <!-- Para ver qué llega -->
-  <pre id="debug" style="position:absolute;top:1rem;left:1rem;
-    background:rgba(0,0,0,0.6);color:lime;padding:.5rem;
-    font-size:.75rem;z-index:999;"></pre>
+  <!-- Debug in-screen para ver lo que llega -->
+  <pre id="debug" style="
+    position:absolute; top:1rem; left:1rem;
+    padding:0.5rem; background:rgba(0,0,0,0.6);
+    color:lime; font-size:.75rem; z-index:999;"></pre>
 
   <div id="container">
     <div id="pointer">⬆</div>
-    <img id="wheel" class="loop" src="wheel.png" alt="Wheel" />
+    <img id="wheel" src="wheel.png" alt="Wheel" />
     <div id="chosenNumber">
       <div id="resultNumber">--</div>
       <div id="resultMessage">Waiting...</div>
@@ -24,26 +25,33 @@
   <!-- Tu lógica de la ruleta -->
   <script src="script.js"></script>
 
-  <!-- Widget oficial de Ko-fi para Stream Alerts -->
+  <!-- 1) Cargamos el widget oficial de Ko-fi -->
   <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
+
+  <!-- 2) Lo inicializamos en modo “stream alerts” -->
   <script>
     kofiWidgetOverlay.draw('yalliwilliam', {
       type: 'stream',
-      'stream.alert.text': '{from_name} tipped {amount}: "{message}"',
+      'stream.alert.text': '{from_name} tipped ${amount}: "{message}"',
       'stream.alert.duration': 5
     });
   </script>
 
-  <!-- Listener que pilla las alertas y las reenvía a tu lógica -->
+  <!-- 3) Listener que capturará esos postMessage() internos -->
   <script>
     window.addEventListener('message', e => {
       if (e.data && e.data.type === 'donation') {
+        // 3a) para debug en pantalla
         document.getElementById('debug').textContent =
           `[donation] $${e.data.amount} msg="${e.data.message}"`;
-        window.postMessage(e.data, '*');
+
+        // 3b) reenviamos la data localmente a nuestro script.js
+        //     (en el mismo dominio ya no hace falta parent.postMessage)
+        window.postMessage(e.data, window.origin);
       }
     });
   </script>
+
 </body>
 </html>
 
