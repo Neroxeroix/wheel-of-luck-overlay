@@ -28,14 +28,5 @@
     src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"
     data-kofiwidget="sa_15243f21-825c-4603-852c-c5c83792119e">
   </script>
-
-  <!-- ––––– Puente: reenvía mensajes de donaciones al contenedor padre ––––– -->
-  <script>
-    window.addEventListener('message', e => {
-      if (e.data && e.data.type === 'donation') {
-        parent.postMessage(e.data, '*');
-      }
-    });
-  </script>
 </body>
 </html>
