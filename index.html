@@ -7,16 +7,14 @@
 </head>
 <body style="margin:0; overflow:hidden; background:transparent;">
 
-  <!-- Depurador in-screen -->
-  <pre id="debug" style="
-    position:absolute; top:1rem; left:1rem;
-    padding:0.5rem; background:rgba(0,0,0,0.6);
-    color:lime; font-size:.75rem; z-index:999;
-  "></pre>
+  <!-- Para ver qué llega -->
+  <pre id="debug" style="position:absolute;top:1rem;left:1rem;
+    background:rgba(0,0,0,0.6);color:lime;padding:.5rem;
+    font-size:.75rem;z-index:999;"></pre>
 
   <div id="container">
     <div id="pointer">⬆</div>
-    <img id="wheel" src="wheel.png" alt="Wheel">
+    <img id="wheel" class="loop" src="wheel.png" alt="Wheel" />
     <div id="chosenNumber">
       <div id="resultNumber">--</div>
       <div id="resultMessage">Waiting...</div>
@@ -26,19 +24,22 @@
   <!-- Tu lógica de la ruleta -->
   <script src="script.js"></script>
 
-  <!-- ↓－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－  -->
-  <!--  ESTE es el Stream Alerts Overlay que realmente dispara mensajes  -->
-  <script src="https://ko-fi.com/streamalerts/overlay/sa_15243f21-825c-4603-852c-c5c83792119e"></script>
-  <!-- ↑－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－  -->
+  <!-- Widget oficial de Ko-fi para Stream Alerts -->
+  <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
+  <script>
+    kofiWidgetOverlay.draw('yalliwilliam', {
+      type: 'stream',
+      'stream.alert.text': '{from_name} tipped {amount}: "{message}"',
+      'stream.alert.duration': 5
+    });
+  </script>
 
-  <!-- Listener único: todas las donaciones de Ko-fi vendrán aquí -->
+  <!-- Listener que pilla las alertas y las reenvía a tu lógica -->
   <script>
     window.addEventListener('message', e => {
       if (e.data && e.data.type === 'donation') {
-        // debug:
         document.getElementById('debug').textContent =
           `[donation] $${e.data.amount} msg="${e.data.message}"`;
-        // reenvía al mismo window para que script.js lo pille
         window.postMessage(e.data, '*');
       }
     });
