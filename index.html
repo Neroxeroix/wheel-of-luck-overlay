@@ -24,8 +24,8 @@
     <!-- Flecha plateada apuntando al límite inferior-izquierdo -->
     <div id="pointer">⬆</div>
 
-    <!-- La ruleta -->
-    <img id="wheel" src="wheel.png" alt="Wheel" />
+    <!-- La ruleta (con loop pasivo desde el arranque) -->
+    <img id="wheel" class="loop" src="wheel.png" alt="Wheel" />
 
     <!-- Cuadro de resultado -->
     <div id="chosenNumber">
@@ -38,14 +38,9 @@
   <script src="script.js"></script>
 
   <!-- Ko-fi Stream Alerts Overlay -->
-  <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
-  <script>
-    // Usamos el widget de stream alerts para disparar donaciones
-    kofiWidgetOverlay.draw('yalliwilliam', {
-      type: 'stream',
-      'stream.alert.text': '{from_name} tipped {amount}: "{message}"',
-      'stream.alert.duration': 5
-    });
+  <script
+    src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"
+    data-kofiwidget="sa_15243f21-825c-4603-852c-c5c83792119e">
   </script>
 
   <!-- ––––– Puente: reenvía mensajes de donaciones al contenedor padre ––––– -->
@@ -64,6 +59,7 @@
   </script>
 </body>
 </html>
+
 
 </body>
 </html>
