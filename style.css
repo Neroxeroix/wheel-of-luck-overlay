@@ -1,0 +1,87 @@
+/* ─── CONTENEDOR Y RUEDA ───────────────────────────────────── */
+#container {
+  width: 100vw; height: 100vh;
+  position: relative;
+  background: transparent;
+}
+#wheel {
+  position: absolute;
+  top:50%; left:50%;
+  width:60vmin; height:60vmin;
+  transform: translate(-50%,-50%) rotate(0deg);
+  transition: transform 0s;
+}
+#wheel.loop {
+  animation: spinLoop 30s linear infinite;
+}
+@keyframes spinLoop {
+  from { transform: translate(-50%,-50%) rotate(0deg); }
+  to   { transform: translate(-50%,-50%) rotate(360deg); }
+}
+
+/* ─── FLECHA PLATEADA ─────────────────────────────────────── */
+#pointer {
+  position: absolute;
+  /* un poquito más lejos del borde */
+  left:  calc(50% - 23vmin);
+  top:   calc(50% + 23vmin);
+  transform: translate(-50%, -50%) rotate(45deg);
+  font-size: 4vmin;
+  color: silver;
+  z-index: 20;
+  pointer-events: none;
+}
+/* ─── CUADRO DE RESULTADO ─────────────────────────────────── */
+#chosenNumber {
+  position: absolute;
+  top:  10%; right: 10%;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  display: none;
+  z-index: 20;
+}
+#resultNumber {
+  font-size: 8vmin;
+  width: 15vmin; height: 15vmin;
+  line-height: 15vmin;
+  margin: auto;
+  background: rgba(0,0,0,0.5);
+  border: 0.8vmin solid white;
+  color: white;
+  text-align: center;
+}
+#chosenNumber.win #resultNumber {
+  border-radius: 50%;
+  border-color: limegreen;
+}
+#chosenNumber.lose #resultNumber {
+  border-radius: 0%;
+  border-color: red;
+}
+#resultMessage {
+  font-size: 2vmin;
+  margin-top: 1vmin;
+  color: silver;
+}
+
+/* ─── EFECTOS ESPECIALES SEGÚN MONTO ─────────────────────── */
+#container.special10 #wheel {
+  filter: drop-shadow(0 0 12px gold);
+}
+#container.legendary #wheel {
+  animation: glowPulse 1.6s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 25px orange) brightness(1.3);
+}
+@keyframes glowPulse {
+  from { filter: drop-shadow(0 0 20px orange) brightness(1.2); }
+  to   { filter: drop-shadow(0 0 35px yellow) brightness(1.6); }
+}
+#chosenNumber.legendary #resultNumber {
+  animation: pulseScale 1s ease-in-out infinite alternate;
+  border-color: gold;
+}
+@keyframes pulseScale {
+  from { transform: scale(1); }
+  to   { transform: scale(1.12); }
+}
