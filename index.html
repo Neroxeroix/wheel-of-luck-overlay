@@ -22,35 +22,35 @@
     </div>
   </div>
 
-  <!-- Tu lógica de la ruleta -->
-  <script src="script.js"></script>
-
-  <!-- 1) Carga el único .js que sí funciona -->
+  <!-- 1) Carga el widget oficial de Ko-fi (solo JS válido) -->
   <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
 
-  <!-- 2) Inicializa el overlay de Ko-fi para stream alerts -->
+  <!-- 2) Inicializa tu overlay de stream alerts -->
   <script>
     kofiWidgetOverlay.draw('yalliwilliam', {
-      type: 'stream',                   // modo "stream alerts"
-      'stream.alert.duration': 5,       // duración en segundos
-      // Puedes personalizar el texto que aparece:
+      type: 'stream',                   // stream alerts mode
+      'stream.alert.duration': 5,       // segundos
       'stream.alert.text': '{from_name} tipped ${amount}: "{message}"'
     });
   </script>
 
-  <!-- 3) Captura los postMessage() que genera el widget y reemítelos a tu own window -->
+  <!-- 3) Puente: captura los postMessage™ de Ko-fi y reemítelos aquí mismo -->
   <script>
     window.addEventListener('message', e => {
       if (e.data && e.data.type === 'donation') {
-        // lo vemos en pantalla
+        // 3a) Muestra en el debug para confirmar que llega
         document.getElementById('debug').textContent =
           `[donation] $${e.data.amount} msg="${e.data.message}"`;
 
-        // lo reenviamos a nuestro script.js
-        window.postMessage(e.data, window.origin);
+        // 3b) Reenvía a tu propio window para que script.js lo reciba
+        window.postMessage(e.data, window.location.origin);
       }
     });
   </script>
+
+  <!-- 4) Ahora carga tu lógica de la ruleta -->
+  <script src="script.js"></script>
 </body>
 </html>
+
 
