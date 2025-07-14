@@ -113,15 +113,17 @@ document.addEventListener('DOMContentLoaded', () => {
       wheel.style.transition = 'none';
 
       const rounds = 2;
-      let spinDeg = rounds*360 + stopDeg;
+      let spinDeg = rounds * 360 + stopDeg;
       if ((currentRotation % 360) === (spinDeg % 360)) spinDeg += 0.1;
 
       // Forzar reflow
       wheel.getBoundingClientRect();
 
       currentRotation = (currentRotation + spinDeg) % 360;
-      wheel.style.transition = transform ${durationMs/1000}s ease-out;
-      wheel.style.transform  = translate(-50%,-50%) rotate(${currentRotation}deg);
+      // ===== CORRECCIÓN =====
+      wheel.style.transition = `transform ${durationMs/1000}s ease-out`;
+      wheel.style.transform  = `translate(-50%,-50%) rotate(${currentRotation}deg)`;
+      // ======================
 
       const onEnd = () => {
         wheel.removeEventListener('transitionend', onEnd);
