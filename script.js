@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('message', e => {
+  // añade esta línea:
+  console.log('[Wheel] mensaje recibido:', e.data);
+  if (e.data.type === 'donation' || e.data.type === 'order.success') {
+    …
+  }
+});
   const wheel         = document.getElementById('wheel');
   const container     = document.getElementById('container');
   const chosenNumber  = document.getElementById('chosenNumber');
