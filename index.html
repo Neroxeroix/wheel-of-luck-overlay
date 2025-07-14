@@ -7,7 +7,7 @@
 </head>
 <body style="margin:0; overflow:hidden; background:transparent;">
 
-  <!-- Opcional: depurador in-screen -->
+  <!-- Depurador in-screen -->
   <pre id="debug" style="
     position:absolute; top:1rem; left:1rem;
     padding:0.5rem; background:rgba(0,0,0,0.6);
@@ -26,27 +26,23 @@
   <!-- Tu lógica de la ruleta -->
   <script src="script.js"></script>
 
-  <!-- Ko-fi Stream Alerts (va a postMessage a window) -->
+  <!-- Ko-fi Stream Alerts Overlay -->
   <script
     src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"
     data-kofiwidget="sa_15243f21-825c-4603-852c-c5c83792119e">
   </script>
 
-  <!-- Listener único que pilla las alertas de Ko-fi -->
+  <!-- Puente definitivo -->
   <script>
     window.addEventListener('message', e => {
       if (e.data && e.data.type === 'donation') {
-        // para debugging:
         document.getElementById('debug').textContent =
           `[donation] $${e.data.amount} msg="${e.data.message}"`;
-
-        // Llamamos a tu lógica: 
-        // la misma data llega aquí, tu script.js la procesará enseguida.
-        // (no hace falta parent.postMessage porque TODO corre en esta ventana)
-        window.postMessage(e.data, window.location.origin);
+        window.postMessage(e.data, '*');
       }
     });
   </script>
 </body>
 </html>
+
 
