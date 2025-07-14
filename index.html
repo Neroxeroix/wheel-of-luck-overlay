@@ -1,36 +1,46 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Wheel of Luck Overlay</title>
+  <title>Wheel of Luck</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body style="margin:0; overflow:hidden; background:transparent;">
 
-  <!-- (Opcional) Panel de debug -->
+  <!-- Depurador visual -->
   <pre id="debug" style="
-    position:absolute; top:1rem; left:1rem;
-    width:20vw; max-height:30vh; overflow-y:auto;
-    padding:.5rem; background:rgba(0,0,0,.6);
-    color:lime; font-size:.75rem; z-index:999;
+    position: absolute;
+    top: 1rem; left: 1rem;
+    width: 20vw; max-height: 30vh;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background: rgba(0,0,0,0.6);
+    color: lime;
+    font-size: 0.75rem;
+    z-index: 999;
   "></pre>
 
   <div id="container">
+    <!-- Flecha plateada apuntando al límite inferior-izquierdo -->
     <div id="pointer">⬆</div>
+
+    <!-- La ruleta -->
     <img id="wheel" src="wheel.png" alt="Wheel" />
+
+    <!-- Cuadro de resultado -->
     <div id="chosenNumber">
       <div id="resultNumber">--</div>
       <div id="resultMessage">Waiting...</div>
     </div>
   </div>
 
-  <!-- Tu lógica de la ruleta -->
+  <!-- Tu lógica de la rueda -->
   <script src="script.js"></script>
 
-  <!-- Ko-fi Stream Alerts Overlay (no floating chat) -->
+  <!-- Ko-fi Stream Alerts Overlay -->
   <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
   <script>
-    // Tipo 'stream' (alertas) en vez de 'floating-chat'
+    // Usamos el widget de stream alerts para disparar donaciones
     kofiWidgetOverlay.draw('yalliwilliam', {
       type: 'stream',
       'stream.alert.text': '{from_name} tipped {amount}: "{message}"',
@@ -38,17 +48,22 @@
     });
   </script>
 
-  <!-- Puente de postMessage (ya no hacía falta si está todo en la misma página,
-       pero por si acaso las alertas vienen de un iframe interno) -->
+  <!-- ––––– Puente: reenvía mensajes de donaciones al contenedor padre ––––– -->
   <script>
     window.addEventListener('message', e => {
+      // Muestra siempre el mensaje en el debug
+      if (e.data && (e.data.type === 'donation' || e.data.type === 'order.success')) {
+        document.getElementById('debug').textContent =
+          `[${e.data.type}] amount=${e.data.amount} message="${e.data.message}"`;
+      }
+      // Reenvía hacia la rueda
       if (e.data && e.data.type === 'donation') {
-        // debug:
-        document.getElementById('debug').textContent += JSON.stringify(e.data, null,2)+'\n';
-        // reenviamos a nuestro propio listener (script.js):
-        window.postMessage(e.data, '*');
+        parent.postMessage(e.data, '*');
       }
     });
   </script>
+</body>
+</html>
+
 </body>
 </html>
