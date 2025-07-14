@@ -120,10 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
       wheel.getBoundingClientRect();
 
       currentRotation = (currentRotation + spinDeg) % 360;
-      // ===== CORRECCIÓN AQUI =====
-      wheel.style.transition = `transform ${durationMs/1000}s ease-out`;
-      wheel.style.transform  = `translate(-50%,-50%) rotate(${currentRotation}deg)`;
-      // ===========================
+      wheel.style.transition = transform ${durationMs/1000}s ease-out;
+      wheel.style.transform  = translate(-50%,-50%) rotate(${currentRotation}deg);
 
       const onEnd = () => {
         wheel.removeEventListener('transitionend', onEnd);
@@ -136,4 +134,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
