@@ -16,7 +16,7 @@
 
   <div id="container">
     <div id="pointer">⬆</div>
-    <img id="wheel" src="wheel.png" alt="Wheel" />
+    <img id="wheel" src="wheel.png" alt="Wheel">
     <div id="chosenNumber">
       <div id="resultNumber">--</div>
       <div id="resultMessage">Waiting...</div>
@@ -26,23 +26,23 @@
   <!-- Tu lógica de la ruleta -->
   <script src="script.js"></script>
 
-  <!-- Ko-fi Stream Alerts Overlay -->
-  <script
-    src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"
-    data-kofiwidget="sa_15243f21-825c-4603-852c-c5c83792119e">
-  </script>
+  <!-- ↓－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－  -->
+  <!--  ESTE es el Stream Alerts Overlay que realmente dispara mensajes  -->
+  <script src="https://ko-fi.com/streamalerts/overlay/sa_15243f21-825c-4603-852c-c5c83792119e"></script>
+  <!-- ↑－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－  -->
 
-  <!-- Puente definitivo -->
+  <!-- Listener único: todas las donaciones de Ko-fi vendrán aquí -->
   <script>
     window.addEventListener('message', e => {
       if (e.data && e.data.type === 'donation') {
+        // debug:
         document.getElementById('debug').textContent =
           `[donation] $${e.data.amount} msg="${e.data.message}"`;
+        // reenvía al mismo window para que script.js lo pille
         window.postMessage(e.data, '*');
       }
     });
   </script>
 </body>
 </html>
-
 
