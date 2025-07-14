@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,26 +6,12 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body style="margin:0; overflow:hidden; background:transparent;">
-
-  <!-- Depurador visual -->
-  <pre id="debug" style="
-    position: absolute;
-    top: 1rem; left: 1rem;
-    width: 20vw; max-height: 30vh;
-    overflow-y: auto;
-    padding: 0.5rem;
-    background: rgba(0,0,0,0.6);
-    color: lime;
-    font-size: 0.75rem;
-    z-index: 999;
-  "></pre>
-
   <div id="container">
     <!-- Flecha plateada apuntando al límite inferior-izquierdo -->
     <div id="pointer">⬆</div>
 
-    <!-- La ruleta (con loop pasivo desde el arranque) -->
-    <img id="wheel" class="loop" src="wheel.png" alt="Wheel" />
+    <!-- La ruleta -->
+    <img id="wheel" src="wheel.png" alt="Wheel" />
 
     <!-- Cuadro de resultado -->
     <div id="chosenNumber">
@@ -46,20 +32,10 @@
   <!-- ––––– Puente: reenvía mensajes de donaciones al contenedor padre ––––– -->
   <script>
     window.addEventListener('message', e => {
-      // Muestra siempre el mensaje en el debug
-      if (e.data && (e.data.type === 'donation' || e.data.type === 'order.success')) {
-        document.getElementById('debug').textContent =
-          `[${e.data.type}] amount=${e.data.amount} message="${e.data.message}"`;
-      }
-      // Reenvía hacia la rueda
       if (e.data && e.data.type === 'donation') {
         parent.postMessage(e.data, '*');
       }
     });
   </script>
-</body>
-</html>
-
-
 </body>
 </html>
